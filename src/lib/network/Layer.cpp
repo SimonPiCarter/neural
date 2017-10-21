@@ -108,10 +108,6 @@ void Layer::backward()
 	// d^k = g'(res^k) * sum w * d^k+1
 	_validator.eltMult(reversed, _dSum);
 
-	assert(solve(_dSum, _transition, _next->_dSum));
-	assert(_dSum.n_rows == _dimension);
-	assert(_res.n_rows == _dimension);
-
 	_dTransition = _next->_dSum *  _res.t();
 }
 

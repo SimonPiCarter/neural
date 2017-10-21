@@ -92,10 +92,10 @@ int main()
 			}
 		}
 		std::cout<<"expected : "<<std::endl;
-		for ( size_t i(0) ; i < trainingData_l[0].expectedOutput.size() ; ++ i )
+		for ( size_t i(0) ; i < trainingData_l[k].expectedOutput.size() ; ++ i )
 		{
-			std::cout<<trainingData_l[0].expectedOutput[i];
-			if ( i < trainingData_l[0].expectedOutput.size()-1)
+			std::cout<<trainingData_l[k].expectedOutput[i];
+			if ( i < trainingData_l[k].expectedOutput.size()-1)
 			{
 				std::cout<<", ";
 			} else {
