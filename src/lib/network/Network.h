@@ -7,6 +7,11 @@
 namespace neural {
 	namespace details{
 		class Layer;
+
+		struct TrainingData {
+			std::vector<double> input;
+			std::vector<double> expectedOutput;
+		};
 	}
 
 	class Network {
@@ -14,11 +19,13 @@ namespace neural {
 		Network(size_t depth_p, size_t width_p, size_t inputSize_p, size_t outputSize_p);
 		~Network();
 
-		void forward(std::vector<float> const & input_p);
-		void backward(std::vector<float> const & expectedOutput_p);
+		void forward(std::vector<double> const & input_p);
+		void backward(std::vector<double> const & expectedOutput_p);
 
-		std::vector<float> getOutput() const;
-		std::vector<float> getInput() const;
+		void train(std::vector<details::TrainingData> const & trainingData_p, size_t iterMax_p=20000);
+
+		std::vector<double> getOutput() const;
+		std::vector<double> getInput() const;
 		/**
 		 * Layer 0 is input, Layer _depth-1 is output
 		 */

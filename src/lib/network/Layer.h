@@ -20,11 +20,15 @@ namespace neural {
 			float getSum(size_t idxNode_p) const;
 			float getRes(size_t idxNode_p) const;
 			float getDSum(size_t idxNode_p) const;
+			arma::vec getDSum() const;
 			void setRes(size_t idxNode_p, float value_p);
 			void setDSum(size_t idxNode_p, float value_p);
 
 			void forward();
 			void backward();
+
+			arma::mat const & getDTransition() const;
+			void updateTransition(arma::mat const & dTransition_p);
 
 		private:
 			arma::mat _transition;

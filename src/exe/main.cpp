@@ -56,79 +56,53 @@ int main()
 	layerHidden_l->setWeight(1,0,0.5f);
 	layerHidden_l->setWeight(2,0,0.9f);
 
+	std::vector<details::TrainingData> trainingData_l;
+	trainingData_l.push_back(details::TrainingData());
+	trainingData_l.back().input.push_back(1.0);
+	trainingData_l.back().input.push_back(1.0);
+	trainingData_l.back().expectedOutput.push_back(0.0);
+	trainingData_l.push_back(details::TrainingData());
+	trainingData_l.back().input.push_back(1.0);
+	trainingData_l.back().input.push_back(0.0);
+	trainingData_l.back().expectedOutput.push_back(1.0);
+	trainingData_l.push_back(details::TrainingData());
+	trainingData_l.back().input.push_back(0.0);
+	trainingData_l.back().input.push_back(1.0);
+	trainingData_l.back().expectedOutput.push_back(1.0);
+	trainingData_l.push_back(details::TrainingData());
+	trainingData_l.back().input.push_back(0.0);
+	trainingData_l.back().input.push_back(0.0);
+	trainingData_l.back().expectedOutput.push_back(0.0);
 
-	std::vector<std::vector<float> > vecInput_l(4, std::vector<float>());
-	vecInput_l[0].push_back(2.f);
-	vecInput_l[0].push_back(2.f);
-	vecInput_l[1].push_back(1.f);
-	vecInput_l[1].push_back(2.f);
-	vecInput_l[2].push_back(2.f);
-	vecInput_l[2].push_back(1.f);
-	vecInput_l[3].push_back(1.f);
-	vecInput_l[3].push_back(1.f);
+	network_l.train(trainingData_l);
 
-	std::vector<std::vector<float> > vecExpected_l(4, std::vector<float>());
-	vecExpected_l[0].push_back(0.f);
-	vecExpected_l[1].push_back(1.f);
-	vecExpected_l[2].push_back(1.f);
-	vecExpected_l[3].push_back(0.f);
-
-	size_t maxIter_l(200000);
-	for ( size_t i(0) ; i < maxIter_l ; ++ i )
+	for ( size_t k(0) ; k < trainingData_l.size() ; ++ k )
 	{
-		network_l.forward(vecInput_l[i%4]);
-
-		/*std::cout<<"Sum"<<std::endl;
-
-		std::cout	<<layerHidden_l->getSum(0)<<";"
-					<<layerHidden_l->getSum(1)<<";"
-					<<layerHidden_l->getSum(2)<<std::endl;
-
-		std::cout	<<layerOutput_l->getSum(0)<<std::endl;*/
-
-		/*std::cout<<"Res"<<std::endl;
-
-		std::cout	<<layerHidden_l->getRes(0)<<";"
-					<<layerHidden_l->getRes(1)<<";"
-					<<layerHidden_l->getRes(2)<<std::endl;*/
-
-
-		std::cout	<<layerOutput_l->getRes(0)<<std::endl;
-
-		network_l.backward(vecExpected_l[i%4]);
-
-		/*std::cout<<"dSum"<<std::endl;
-
-		std::cout	<<layerInput_l->getDSum(0)<<";"
-					<<layerInput_l->getDSum(1)<<std::endl;
-
-		std::cout	<<layerHidden_l->getDSum(0)<<";"
-					<<layerHidden_l->getDSum(1)<<";"
-					<<layerHidden_l->getDSum(2)<<std::endl;
-
-		std::cout	<<layerOutput_l->getDSum(0)<<std::endl;
-
-		std::cout<<"new weight"<<std::endl;
-		std::cout<<layerInput_l->getWeight(0,0)<<std::endl;
-		std::cout<<layerInput_l->getWeight(0,1)<<std::endl;
-		std::cout<<layerInput_l->getWeight(0,2)<<std::endl;
-		std::cout<<layerInput_l->getWeight(1,0)<<std::endl;
-		std::cout<<layerInput_l->getWeight(1,1)<<std::endl;
-		std::cout<<layerInput_l->getWeight(1,2)<<std::endl;
-		std::cout<<layerHidden_l->getWeight(0,0)<<std::endl;
-		std::cout<<layerHidden_l->getWeight(1,0)<<std::endl;
-		std::cout<<layerHidden_l->getWeight(2,0)<<std::endl;*/
+		network_l.forward(trainingData_l[k].input);
+		std::vector<double> output_l = network_l.getOutput();
+		std::cout<<"output : "<<std::endl;
+		for ( size_t i(0) ; i < output_l.size() ; ++ i )
+		{
+			std::cout<<output_l[i];
+			if ( i < output_l.size()-1)
+			{
+				std::cout<<", ";
+			} else {
+				std::cout<<std::endl;
+			}
+		}
+		std::cout<<"expected : "<<std::endl;
+		for ( size_t i(0) ; i < trainingData_l[0].expectedOutput.size() ; ++ i )
+		{
+			std::cout<<trainingData_l[0].expectedOutput[i];
+			if ( i < trainingData_l[0].expectedOutput.size()-1)
+			{
+				std::cout<<", ";
+			} else {
+				std::cout<<std::endl;
+			}
+		}
 	}
-	
-/*
-	vec a = randu<mat>(2);
-	vec b = randu<mat>(2);
-	vec d = randu<mat>(2);; d.fill(1.0);
-	mat c = a * (d.t() / b.t());
-
-	a.print("a:");
-	b.print("b:");
-	c.print("c:");*/
 
 	return 0;
 }
