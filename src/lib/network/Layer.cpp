@@ -20,8 +20,8 @@ Layer::Layer(size_t dimension_p, ValidationFunction const & validator_p)
 
 }
 Layer::Layer(size_t dimension_p, ValidationFunction const & validator_p, Layer * next_p)
-	: _transition(next_p->_dimension, dimension_p+1)
-	, _dTransition(next_p->_dimension, dimension_p+1)
+	: _transition(next_p->_dimension, dimension_p+1, fill::randu)
+	, _dTransition(next_p->_dimension, dimension_p+1, fill::randu)
 	, _res(dimension_p)
 	, _sum(dimension_p)
 	, _dSum(dimension_p+1)

@@ -42,20 +42,6 @@ int main()
 
 	Network network_l(1,3,2,1);
 
-	details::Layer * layerInput_l = network_l.getLayer(0);
-	details::Layer * layerHidden_l = network_l.getLayer(1);
-	details::Layer * layerOutput_l = network_l.getLayer(2);
-
-	layerInput_l->setWeight(0,0,0.8f);
-	layerInput_l->setWeight(0,1,0.4f);
-	layerInput_l->setWeight(0,2,0.3f);
-	layerInput_l->setWeight(1,0,0.2f);
-	layerInput_l->setWeight(1,1,0.9f);
-	layerInput_l->setWeight(1,2,0.5f);
-	layerHidden_l->setWeight(0,0,0.3f);
-	layerHidden_l->setWeight(1,0,0.5f);
-	layerHidden_l->setWeight(2,0,0.9f);
-
 	std::vector<details::TrainingData> trainingData_l;
 	trainingData_l.push_back(details::TrainingData());
 	trainingData_l.back().input.push_back(1.0);
