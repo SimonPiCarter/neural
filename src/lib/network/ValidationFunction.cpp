@@ -9,23 +9,23 @@ using namespace arma;
 
 void ValidationFunction::eltMult(arma::vec const & mult_p, arma::vec & out_p) const
 {
-	assert(mult_p.n_rows==out_p.n_rows);
-	for ( size_t i(0) ; i < out_p.n_rows ; ++ i ) {
+	assert(mult_p.n_rows<=out_p.n_rows);
+	for ( size_t i(0) ; i < mult_p.n_rows ; ++ i ) {
 		out_p.at(i) *= mult_p.at(i);
 	}
 }
 
 void ValidationFunction::apply(arma::vec const & sum_p, arma::vec & res_p) const
 {
-	assert(sum_p.n_rows==res_p.n_rows);
-	for ( size_t i(0) ; i < res_p.n_rows ; ++ i ) {
+	assert(sum_p.n_rows<=res_p.n_rows);
+	for ( size_t i(0) ; i < sum_p.n_rows ; ++ i ) {
 		res_p.at(i) = apply(sum_p.at(i));
 	}
 }
 void ValidationFunction::reverse(arma::vec const & sum_p, arma::vec & res_p) const
 {
-	assert(sum_p.n_rows==res_p.n_rows);
-	for ( size_t i(0) ; i < res_p.n_rows ; ++ i ) {
+	assert(sum_p.n_rows<=res_p.n_rows);
+	for ( size_t i(0) ; i < sum_p.n_rows ; ++ i ) {
 		res_p.at(i) = reverse(sum_p.at(i));
 	}
 }

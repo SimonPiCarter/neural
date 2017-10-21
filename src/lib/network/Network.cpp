@@ -85,12 +85,12 @@ void Network::train(std::vector<details::TrainingData> const & trainingData_p, s
 	}
 	// transition matrices update
 	std::vector<mat *> dTransition_l;
-	dTransition_l.push_back(new mat(_width, _inputSize, fill::zeros));
+	dTransition_l.push_back(new mat(_width, _inputSize+1, fill::zeros));
 	for ( size_t i(1) ; i < _depth-2 ; ++ i )
 	{
-		dTransition_l.push_back(new mat(_width, _width, fill::zeros));
+		dTransition_l.push_back(new mat(_width, _width+1, fill::zeros));
 	}
-	dTransition_l.push_back(new mat(_outputSize, _width, fill::zeros));
+	dTransition_l.push_back(new mat(_outputSize, _width+1, fill::zeros));
 
 	// training coef
 	double alpha = 1.0;

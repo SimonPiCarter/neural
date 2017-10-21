@@ -12,7 +12,7 @@ Layer::Layer(size_t dimension_p, ValidationFunction const & validator_p)
 	, _dTransition()
 	, _res(dimension_p)
 	, _sum(dimension_p)
-	, _dSum(dimension_p)
+	, _dSum(dimension_p+1)
 	, _dimension(dimension_p)
 	, _validator(validator_p)
 	, _next(NULL)
@@ -20,11 +20,11 @@ Layer::Layer(size_t dimension_p, ValidationFunction const & validator_p)
 
 }
 Layer::Layer(size_t dimension_p, ValidationFunction const & validator_p, Layer * next_p)
-	: _transition(next_p->_dimension, dimension_p)
-	, _dTransition(next_p->_dimension, dimension_p)
+	: _transition(next_p->_dimension, dimension_p+1)
+	, _dTransition(next_p->_dimension, dimension_p+1)
 	, _res(dimension_p)
 	, _sum(dimension_p)
-	, _dSum(dimension_p)
+	, _dSum(dimension_p+1)
 	, _dimension(dimension_p)
 	, _validator(validator_p)
 	, _next(next_p)
@@ -83,38 +83,40 @@ void Layer::setDSum(size_t idxNode_p, float value_p)
 
 void Layer::forward()
 {
-	//_res.print("_res:");
-	//_transition.print("_transition:");
+	if ( _res.size() != _dimension+1 )
+	{
+		_res.resize(_dimension+1);
+	}
+	_res.at(_dimension) = 1.0;
+
 	_next->_sum = _transition * _res;
-	//_next->_sum.print("_next->_sum:");
 	assert(_next->_sum.n_rows == _next->_dimension);
 	_next->_validator.apply(_next->_sum, _next->_res);
-	//_next->_res.print("_next->_res:");
-	assert(_next->_res.n_rows == _next->_dimension);
+	//assert(_next->_res.n_rows == _next->_dimension);
 }
 
 void Layer::backward()
 {
 	assert(_next);
-	assert(_next->_dSum.n_rows == _next->_dimension);
+	assert(_next->_dSum.n_rows == _next->_dimension+1);
 	assert(_transition.n_rows == _next->_dimension);
-	assert(_transition.n_cols == _dimension);
+	assert(_transition.n_cols == _dimension+1);
 
 	// d^k = sum w * d^k+1
-	_dSum = _transition.t() * _next->_dSum;
-	assert(_dSum.n_rows == _dimension);
+	_dSum = _transition.t() * _next->_dSum.head(_next->_dimension);
+	assert(_dSum.n_rows == _dimension+1);
 	vec reversed(_dimension);
 	_validator.reverse(_sum, reversed);
 	// d^k = g'(res^k) * sum w * d^k+1
 	_validator.eltMult(reversed, _dSum);
 
-	_dTransition = _next->_dSum *  _res.t();
+	_dTransition = _next->_dSum.head(_next->_dimension) *  _res.t();
 }
 
 mat const & Layer::getDTransition() const
 {
 	assert(_dTransition.n_rows == _next->_dimension);
-	assert(_dTransition.n_cols == _dimension);
+	assert(_dTransition.n_cols == _dimension+1);
 	return _dTransition;
 }
 
