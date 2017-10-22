@@ -124,3 +124,8 @@ void Layer::updateTransition(mat const & dTransition_p)
 {
 	_transition += dTransition_p;
 }
+
+ValidationFunction const & Layer::getValidator() const
+{
+	return _validator;
+}

@@ -65,7 +65,7 @@ void Network::backward(std::vector<double> const & expectedOutput_p)
 	for ( size_t i(0) ; i < expectedOutput_p.size() ; ++ i )
 	{
 		double diff(expectedOutput_p[i]-outputLayer_l->getRes(i));
-		double sprime(_validator.reverse(outputLayer_l->getSum(i)));
+		double sprime(outputLayer_l->getValidator().reverse(outputLayer_l->getSum(i)));
 		/*std::cout<<"Delta output sum = "<<"S'("<<outputLayer_l->getSum(i)<<") * "<<diff<<std::endl;
 		std::cout<<"Delta output sum = "<<sprime<<" * "<<diff<<std::endl;*/
 		outputLayer_l->setDSum(i,diff * sprime);

@@ -30,12 +30,21 @@ void ValidationFunction::reverse(arma::vec const & sum_p, arma::vec & res_p) con
 	}
 }
 
-float ValidationFunction::apply(float const & x) const
+float SigmoidValidationFunction::apply(float const & x) const
 {
 	return 1/(1+std::exp(-x));
 }
-float ValidationFunction::reverse(float const & x) const
+float SigmoidValidationFunction::reverse(float const & x) const
 {
 	float intermediate_l(1+std::exp(x));
 	return std::exp(x)/(intermediate_l*intermediate_l);
+}
+
+float IdentityValidationFunction::apply(float const & x) const
+{
+	return x;
+}
+float IdentityValidationFunction::reverse(float const & x) const
+{
+	return 1;
 }

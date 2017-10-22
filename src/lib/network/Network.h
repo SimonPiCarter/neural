@@ -38,6 +38,7 @@ namespace neural {
 		size_t _outputSize;
 		std::vector<details::Layer *> _layers;
 
-		details::ValidationFunction _validator;
+		details::SigmoidValidationFunction _validator;
+		details::IdentityValidationFunction _identity;
 	};
 }

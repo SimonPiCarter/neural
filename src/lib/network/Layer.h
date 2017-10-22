@@ -30,6 +30,8 @@ namespace neural {
 			arma::mat const & getDTransition() const;
 			void updateTransition(arma::mat const & dTransition_p);
 
+			ValidationFunction const & getValidator() const;
+
 		private:
 			arma::mat _transition;
 			arma::mat _dTransition;

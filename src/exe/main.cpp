@@ -40,7 +40,7 @@ int main()
 
 	vec res(dimX);*/
 
-	Network network_l(1,3,2,1);
+	Network network_l(2,10,2,1);
 
 	std::vector<details::TrainingData> trainingData_l;
 	trainingData_l.push_back(details::TrainingData());
